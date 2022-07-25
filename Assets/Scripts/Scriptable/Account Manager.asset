@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d840bda13f8b13f4684ebb9349ea73c9, type: 3}
   m_Name: Account Manager
   m_EditorClassIdentifier: 
+  userID: 1
+  username: ArnArnejo
+  email: 
+  walletBallance: 0

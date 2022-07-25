@@ -15,7 +15,8 @@ public class UIManager : MonoBehaviour
     public Button CancelSignupBtn;
 
     [Header("Texts")]
-    public TextMeshProUGUI errorMessage;
+    public TextMeshProUGUI SignupErrorMessage;
+    public TextMeshProUGUI LoginErrorMessage;
 
     [Header("InputFields")]
     public TMP_InputField loginUsername;
@@ -37,7 +38,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        errorMessage.text = "";
+        SignupErrorMessage.text = "";
+        LoginErrorMessage.text = "";
         SuccesPanel.SetActive(false);
         CreateAccountBtn.onClick.AddListener(EnableSignup);
         BackToLoginBtn.onClick.AddListener(EnableLogin);
@@ -68,15 +70,15 @@ public class UIManager : MonoBehaviour
     public void CheckSignupInformation(string username, string email, string password, string confirmPass) {
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email)
             || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPass)) {
-            errorMessage.text = "Please Enter User Information";
+            SignupErrorMessage.text = "Please Enter User Information";
             return;
         }
         if (username.Length < 8 || password.Length < 8) {
-            errorMessage.text = "Username or Password should be 8 or more characters";
+            SignupErrorMessage.text = "Username or Password should be 8 or more characters";
             return;
         }
         if (password != confirmPass) {
-            errorMessage.text = "Passwords do not match";
+            SignupErrorMessage.text = "Passwords do not match";
             return;
         }
 

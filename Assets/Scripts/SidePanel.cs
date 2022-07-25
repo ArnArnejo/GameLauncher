@@ -8,12 +8,12 @@ public class SidePanel : MonoBehaviour
 {
     public TextMeshProUGUI Title;
     public TextMeshProUGUI Description;
-    public Image Wallpaper;
+    public RawImage Wallpaper;
 
 
-    public void SetUpPanel(GameDetails _details) {
-        Title.text = _details.GameName;
-        Description.text = _details.GameDesciption;
-        Wallpaper.sprite = _details.GameImage;
+    public void SetUpPanel(PurchasedGame _details) {
+        Title.text = _details.GameTitle;
+        Description.text = _details.GameDesc;
+        Wallpaper.texture = _details.wallpaperTex;
     }
 }   

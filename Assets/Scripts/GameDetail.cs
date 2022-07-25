@@ -6,20 +6,21 @@ using UnityEngine.UI;
 
 public class GameDetail : MonoBehaviour
 {
-    private GameHandler _gameHandler => GameHandler.Instance;
-    private GameDetails details;
+    private PurchaseHandler _purchaseHandler => PurchaseHandler.Instance;
+    
+    private PurchasedGame details;
     public TextMeshProUGUI GameTitle;
-    public Image icon;
+    public RawImage icon;
     public bool IsSelected;
 
-    public void SetupDetails(GameDetails _detail) {
+    public void SetupDetails(PurchasedGame _detail) {
         details = _detail;
     }
 
     private void Start()
     {
-        GameTitle.text = details.GameName;
-        icon.sprite = details.GameIcon;
+        GameTitle.text = details.GameTitle;
+        icon.texture = details.iconTex;
 
         if (IsSelected) {
             CheckSidePanel();
@@ -27,12 +28,12 @@ public class GameDetail : MonoBehaviour
     }
 
     public void CheckSidePanel() {
-        if (!_gameHandler.isSidePanelExists)
+        if (!_purchaseHandler.isSidePanelExists)
         {
-            _gameHandler.SpawnSidePanel(details);
+            _purchaseHandler.SpawnSidePanel(details);
         }
         else {
-            _gameHandler.UpdateSidePanel(details);
+            _purchaseHandler.UpdateSidePanel(details);
         }
     }
 }
