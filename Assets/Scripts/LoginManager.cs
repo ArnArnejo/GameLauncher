@@ -26,9 +26,9 @@ public class LoginManager : MonoBehaviour
     [SerializeField]private GameManager _gameManager => GameManager.Instance;
     [SerializeField] private LoadManager _loadManager;
 
-    [Header("Links")]
-    public string SignupURL;
-    public string LoginURL;
+    //[Header("Links")]
+    //public string SignupURL;
+    //public string LoginURL;
 
     [Header("UIManager")]
     public UIManager uiManager;
@@ -49,7 +49,7 @@ public class LoginManager : MonoBehaviour
         form.AddField("addEmail", user.email);
         form.AddField("addPassword", user.password);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(SignupURL, form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.SignupURL.ToString()), form);
         yield return webRequest.SendWebRequest();
 
         uiManager.SuccesSignup();
@@ -64,7 +64,7 @@ public class LoginManager : MonoBehaviour
         form.AddField("loginUsername", user.username);
         form.AddField("loginPassword", user.password);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(LoginURL, form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.LoginURL.ToString()), form);
         yield return webRequest.SendWebRequest();
         print(webRequest.downloadHandler.text);
         string[] result = webRequest.downloadHandler.text.Split(';');

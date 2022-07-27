@@ -11,11 +11,12 @@ public class PurchaseHandler : MonoBehaviour
 
     public static PurchaseHandler Instance;
     private GameManager _gameManager => GameManager.Instance;
+    private UIHandler _uiHandler => UIHandler.Instance;
 
-    [Header("URLS")]
-    public string GetGamesURL;
-    public string PurchaseGameURL;
-    public string MainURL;
+    //[Header("URLS")]
+    //public string GetGamesURL;
+    //public string PurchaseGameURL;
+    //public string MainURL;
 
     [Header("Utilities")]
     public string[] PurchasedGameData;
@@ -59,7 +60,7 @@ public class PurchaseHandler : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("UserID", _gameManager.AccountManager.userID);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(GetGamesURL, form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.GetPurchasedGameURL.ToString()), form);
         yield return webRequest.SendWebRequest();
         print(webRequest.downloadHandler.text);
         PurchasedGameData = webRequest.downloadHandler.text.Split(';');
@@ -80,7 +81,8 @@ public class PurchaseHandler : MonoBehaviour
                             HelperScript.GetValueData(_PurchasedGameDatartData[i], "GameIcon:"),
                             HelperScript.GetValueData(_PurchasedGameDatartData[i], "IconPath:"),
                             HelperScript.GetValueData(_PurchasedGameDatartData[i], "GameWallpaper:"),
-                            HelperScript.GetValueData(_PurchasedGameDatartData[i], "WallpaperPath:")
+                            HelperScript.GetValueData(_PurchasedGameDatartData[i], "WallpaperPath:"),
+                            HelperScript.GetValueData(_PurchasedGameDatartData[i], "GameURL:")
                             ));
 
         }
@@ -92,7 +94,7 @@ public class PurchaseHandler : MonoBehaviour
     {
         for (int i = 0; i < _gameManager.purchasedGame.Count; i++)
         {
-            string iconURL = MainURL + _gameManager.purchasedGame[i].IconPath + "/" + _gameManager.purchasedGame[i].GameIcon;
+            string iconURL = _gameManager.GetURL(eURLS.MainURL.ToString()) + _gameManager.purchasedGame[i].IconPath + "/" + _gameManager.purchasedGame[i].GameIcon;
 
             WWW www = new WWW(iconURL);
             var operation = www;
@@ -111,7 +113,7 @@ public class PurchaseHandler : MonoBehaviour
     {
         for (int i = 0; i < _gameManager.purchasedGame.Count; i++)
         {
-            string iconURL = MainURL + _gameManager.purchasedGame[i].WallpaperPath + "/" + _gameManager.purchasedGame[i].GameWallpaper;
+            string iconURL = _gameManager.GetURL(eURLS.MainURL.ToString()) + _gameManager.purchasedGame[i].WallpaperPath + "/" + _gameManager.purchasedGame[i].GameWallpaper;
 
             WWW www = new WWW(iconURL);
             var operation = www;
@@ -174,11 +176,17 @@ public class PurchaseHandler : MonoBehaviour
 
     IEnumerator GamePurchase(string _id)
     {
+        _uiHandler.Notification.gameObject.SetActive(true);
+        _uiHandler.Notification.NotifText.text = "Game Purchased";
+        yield return new WaitForSeconds(1f);
+        _uiHandler.Notification.gameObject.SetActive(false);
+        _uiHandler.Notification.NotifText.text = "";
+       
         WWWForm form = new WWWForm();
         form.AddField("GameID", _id);
         form.AddField("UserID", _gameManager.AccountManager.userID);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(PurchaseGameURL, form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.PurchaseGameURL.ToString()), form);
         yield return webRequest.SendWebRequest();
         print(webRequest.downloadHandler.text);
         AddPurchasedGame(_id);
@@ -202,10 +210,11 @@ public class PurchasedGame
     public string IconPath;
     public string GameWallpaper;
     public string WallpaperPath;
+    public string GameURL;
     public Texture2D iconTex;
     public Texture2D wallpaperTex;
 
-    public PurchasedGame(string _id, string _gametitle, string _gamedesc, float _gameprice, string _gameicon, string _iconpath, string _gamewallpaper, string _wallpaperpath)
+    public PurchasedGame(string _id, string _gametitle, string _gamedesc, float _gameprice, string _gameicon, string _iconpath, string _gamewallpaper, string _wallpaperpath, string _gameURL)
     {
         ID = _id;
         GameTitle = _gametitle;
@@ -215,5 +224,6 @@ public class PurchasedGame
         IconPath = _iconpath;
         GameWallpaper = _gamewallpaper;
         WallpaperPath = _wallpaperpath;
+        GameURL = _gameURL;
     }
 }

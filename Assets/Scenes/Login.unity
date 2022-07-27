@@ -1597,8 +1597,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _loadManager: {fileID: 842361584}
-  SignupURL: http://localhost/GameLauncherDB/userInsert.php
-  LoginURL: http://localhost/GameLauncherDB/login.php
   uiManager: {fileID: 1078533039}
 --- !u!4 &360147063
 Transform:

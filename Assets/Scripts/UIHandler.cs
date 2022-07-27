@@ -10,6 +10,7 @@ public class UIHandler : MonoBehaviour
     private GameManager _gameManager => GameManager.Instance;
     //[Header("Top Panel")]
 
+    public static UIHandler Instance;
 
     [Header("Main Menu Panel")]
     public Button MenuStoreBtn;
@@ -18,6 +19,7 @@ public class UIHandler : MonoBehaviour
     public Button MenuAccountBtn;
     public Button AddGameBtn;
     public TextMeshProUGUI AccountNameText;
+    public TextMeshProUGUI AccountBalanceText;
 
     [Header("Main Panel")]
     public GameObject StorePanel;
@@ -39,8 +41,18 @@ public class UIHandler : MonoBehaviour
     public Button CartBtn;
     public Button YourStoreBtn;
 
+    [Header("Notification")]
+    public NotificationText Notification;
+
+  
 
     //[Header("Footer Panel")]
+
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 
     private void Start()
     {
@@ -53,6 +65,7 @@ public class UIHandler : MonoBehaviour
         CartBtn.onClick.AddListener(EnableCart);
         YourStoreBtn.onClick.AddListener(EnableStore);
         AccountNameText.text = _gameManager.AccountManager.username;
+        AccountBalanceText.text = "$ " + _gameManager.AccountManager.walletBallance.ToString();
     }
 
 

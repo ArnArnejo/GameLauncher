@@ -11,8 +11,8 @@ public class StoreGameList : MonoBehaviour
 {
     private GameManager _gameManager => GameManager.Instance;
 
-    [Header("URL's")]
-    public string AddGameToCartURL;
+    //[Header("URL's")]
+    //public string AddGameToCartURL;
 
     [Header("Game Data")]
     public string ID;
@@ -43,11 +43,13 @@ public class StoreGameList : MonoBehaviour
 
     private async void addToCart() {
 
+
+
         WWWForm form = new WWWForm();
         form.AddField("GameID", ID);
         form.AddField("UserID", _gameManager.AccountManager.userID);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(AddGameToCartURL, form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.AddToCartURL.ToString()), form);
 
         var operation = webRequest.SendWebRequest();
         while (!operation.isDone)

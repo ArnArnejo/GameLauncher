@@ -44,3 +44,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccountManager: {fileID: 11400000, guid: eb14172151b81f04e89e5bbec21eeefd, type: 2}
+  Links:
+  - Name: SignupURL
+    UrlLink: http://localhost/GameLauncherDB/userInsert.php
+  - Name: LoginURL
+    UrlLink: http://localhost/GameLauncherDB/login.php
+  - Name: MainURL
+    UrlLink: http://localhost/GameLauncherDB/
+  - Name: ViewGameURL
+    UrlLink: http://localhost/GameLauncherDB/GetStoreGames.php
+  - Name: InsertGameURL
+    UrlLink: http://localhost/GameLauncherDB/GameInsert.php
+  - Name: GetCartItemURL
+    UrlLink: http://localhost/GameLauncherDB/getCartItem.php
+  - Name: RemoveCartItemURL
+    UrlLink: http://localhost/GameLauncherDB/removeCartItem.php
+  - Name: GetPurchasedGameURL
+    UrlLink: http://localhost/GameLauncherDB/getPurchasedItem.php
+  - Name: PurchaseGameURL
+    UrlLink: http://localhost/GameLauncherDB/purchaseGame.php
+  - Name: AddToCartURL
+    UrlLink: http://localhost/GameLauncherDB/addToCart.php
+  cartGames: []
+  cartItemList: []
+  purchasedGame: []

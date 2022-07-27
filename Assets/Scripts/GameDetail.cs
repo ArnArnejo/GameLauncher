@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class GameDetail : MonoBehaviour
 {
     private PurchaseHandler _purchaseHandler => PurchaseHandler.Instance;
-    
+
+    private PlayGameHandler _playGameHandler => PlayGameHandler.Instance;
+
     private PurchasedGame details;
     public TextMeshProUGUI GameTitle;
     public RawImage icon;
@@ -28,6 +30,9 @@ public class GameDetail : MonoBehaviour
     }
 
     public void CheckSidePanel() {
+
+        _playGameHandler.Init(details.GameTitle, details.GameTitle, details.GameURL);
+
         if (!_purchaseHandler.isSidePanelExists)
         {
             _purchaseHandler.SpawnSidePanel(details);
@@ -35,5 +40,7 @@ public class GameDetail : MonoBehaviour
         else {
             _purchaseHandler.UpdateSidePanel(details);
         }
+
+        
     }
 }

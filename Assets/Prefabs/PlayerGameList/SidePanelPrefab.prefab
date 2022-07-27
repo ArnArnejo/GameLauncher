@@ -697,6 +697,9 @@ MonoBehaviour:
   Title: {fileID: 6960041475736144112}
   Description: {fileID: 6624585774312174957}
   Wallpaper: {fileID: 7235114218467018795}
+  GameURL: 
+  PlayBtn: {fileID: 6980501308136663497}
+  PlayBtnText: {fileID: 6880053388661120962}
 --- !u!1 &4782929489288724684
 GameObject:
   m_ObjectHideFlags: 0

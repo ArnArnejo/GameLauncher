@@ -44,9 +44,9 @@ public class TestGameHandler : MonoBehaviour
 
     private void Start()
     {
-        UploadImageBtn.onClick.AddListener(UploadImageIcon);
-        UploadwallpaperBtn.onClick.AddListener(UploadImageWallpaper);
-        SubmitBtn.onClick.AddListener(SubmitGame);
+        //UploadImageBtn.onClick.AddListener(UploadImageIcon);
+        //UploadwallpaperBtn.onClick.AddListener(UploadImageWallpaper);
+        //SubmitBtn.onClick.AddListener(SubmitGame);
 
         //GetImage();
         //GetGames();
@@ -190,7 +190,8 @@ public class TestGameHandler : MonoBehaviour
                             HelperScript.GetValueData(_gameData[i], "GameIcon:"),
                             HelperScript.GetValueData(_gameData[i], "IconPath:"),
                             HelperScript.GetValueData(_gameData[i], "GameWallpaper:"),
-                            HelperScript.GetValueData(_gameData[i], "WallpaperPath:")
+                            HelperScript.GetValueData(_gameData[i], "WallpaperPath:"),
+                            HelperScript.GetValueData(_gameData[i], "GameURL:")
                             ));
 
         }
@@ -251,10 +252,11 @@ public class StoreGame
     public string IconPath;
     public string GameWallpaper;
     public string WallpaperPath;
+    public string GameURL;
     public Texture2D iconTex;
     public Texture2D wallpaperTex;
 
-    public StoreGame (string _id, string _gametitle, string _gamedesc, float _gameprice, string _gameicon, string _iconpath, string _gamewallpaper, string _wallpaperpath) {
+    public StoreGame (string _id, string _gametitle, string _gamedesc, float _gameprice, string _gameicon, string _iconpath, string _gamewallpaper, string _wallpaperpath, string _gameURL) {
         ID = _id;
         GameTitle = _gametitle;
         GameDesc = _gamedesc;
@@ -263,5 +265,6 @@ public class StoreGame
         IconPath = _iconpath;
         GameWallpaper = _gamewallpaper;
         WallpaperPath = _wallpaperpath;
+        GameURL = _gameURL;
     }
 }

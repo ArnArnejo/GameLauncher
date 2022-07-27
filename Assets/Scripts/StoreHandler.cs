@@ -18,10 +18,10 @@ public class StoreHandler : MonoBehaviour
     [Header("Parent Object of the List")]
     public Transform Parent;
 
-    [Header("URLS")]
-    public string ViewGamesURL;
-    public string MainURL;
-    public string InsertGameURL;
+    //[Header("URLS")]
+    //public string ViewGamesURL;
+    //public string MainURL;
+    //public string InsertGameURL;
 
     [Header("Game Information")]
     public string GameTitle;
@@ -61,7 +61,7 @@ public class StoreHandler : MonoBehaviour
     //[ContextMenu("Get Games")]
     private async void GetGames()
     {
-        using var www = UnityWebRequest.Get(ViewGamesURL);
+        using var www = UnityWebRequest.Get(_gameManager.GetURL(eURLS.ViewGameURL.ToString()));
         www.SetRequestHeader("Content-Type", "application/json");
         var operation = www.SendWebRequest();
         while (!operation.isDone)
@@ -95,7 +95,8 @@ public class StoreHandler : MonoBehaviour
                             HelperScript.GetValueData(_gameData[i], "GameIcon:"),
                             HelperScript.GetValueData(_gameData[i], "IconPath:"),
                             HelperScript.GetValueData(_gameData[i], "GameWallpaper:"),
-                            HelperScript.GetValueData(_gameData[i], "WallpaperPath:")
+                            HelperScript.GetValueData(_gameData[i], "WallpaperPath:"),
+                            HelperScript.GetValueData(gameData[i], "GameURL:")
                             ));
 
         }
@@ -108,7 +109,7 @@ public class StoreHandler : MonoBehaviour
     {
         for (int i = 0; i < storeGames.Count; i++)
         {
-            string iconURL = MainURL + storeGames[i].IconPath + "/" + storeGames[i].GameIcon;
+            string iconURL = _gameManager.GetURL(eURLS.MainURL.ToString()) + storeGames[i].IconPath + "/" + storeGames[i].GameIcon;
 
             WWW www = new WWW(iconURL);
             var operation = www;
@@ -128,7 +129,7 @@ public class StoreHandler : MonoBehaviour
     {
         for (int i = 0; i < storeGames.Count; i++)
         {
-            string iconURL = MainURL + storeGames[i].WallpaperPath + "/" + storeGames[i].GameWallpaper;
+            string iconURL = _gameManager.GetURL(eURLS.MainURL.ToString()) + storeGames[i].WallpaperPath + "/" + storeGames[i].GameWallpaper;
 
             WWW www = new WWW(iconURL);
             var operation = www;
@@ -179,7 +180,7 @@ public class StoreHandler : MonoBehaviour
 
 
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(InsertGameURL, form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.InsertGameURL.ToString()), form);
         //yield return webRequest.SendWebRequest();
         //print(webRequest.downloadHandler.text);
         //string[] result = webRequest.downloadHandler.text.Split(';');

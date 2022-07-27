@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameManager : MonoBehaviour
 {
+    
+
     public static GameManager Instance;
     public AccountManager AccountManager;
+
+    [Header("URL's")]
+    public URL[] Links;
 
     //Events
     public delegate void UpdateCart(string _id);
@@ -31,20 +37,15 @@ public class GameManager : MonoBehaviour
 
         if (Instance == null) Instance = this;
     }
-
-
     public void ItemAddedToCart(string _id) {
         OnAddCartItem?.Invoke(_id);
     }
     public void ItemRemovedFromCart(string _id) {
         OnRemoveCartItem?.Invoke(_id);
     }
-
     public void PurchaseGame(string _id) {
         OnPurchase?.Invoke(_id);
     }
-
-
     public CartItem Item(string _id) {
         for (int i = 0; i < cartItemList.Count; i++)
         {
@@ -54,4 +55,30 @@ public class GameManager : MonoBehaviour
         }
         return null;
     }
+
+
+    public string GetURL(string name) {
+        URL url = Array.Find(Links, link => link.Name == name);
+
+        return url.UrlLink;
+    }
+}
+
+[Serializable]
+public class URL {
+    public string Name;
+    public string UrlLink;
+}
+
+public enum eURLS {
+    SignupURL,
+    LoginURL,
+    MainURL,
+    ViewGameURL,
+    InsertGameURL,
+    AddToCartURL,
+    GetCartItemURL,
+    RemoveCartItemURL,
+    GetPurchasedGameURL,
+    PurchaseGameURL
 }
