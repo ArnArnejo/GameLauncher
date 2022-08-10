@@ -276,7 +276,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Add to cart
+  m_text: Add to Cart
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -303,12 +303,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
+  m_fontSize: 19
   m_fontSizeBase: 25
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
+  m_fontSizeMax: 19
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -1074,7 +1074,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edcddcac4e61ef54aa1a11f4c805bdb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AddGameToCartURL: http://localhost/GameLauncherDB/addToCart.php
   ID: 
   GameTitle: {fileID: 6076282389270232667}
   GameDesc: {fileID: 8688334421538273224}
@@ -1082,3 +1081,4 @@ MonoBehaviour:
   Icon: {fileID: 6009657183197202322}
   Wallpaper: {fileID: 8525810681758644635}
   AddToCartBtn: {fileID: 3623605000965395652}
+  text: {fileID: 1616409386067405220}

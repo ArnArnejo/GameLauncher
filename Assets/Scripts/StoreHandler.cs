@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 public class StoreHandler : MonoBehaviour
 {
+    public static StoreHandler Instance;
 
     private GameManager _gameManager => GameManager.Instance;
     [Header("Store Game List Prefab")]
@@ -29,11 +30,13 @@ public class StoreHandler : MonoBehaviour
     public string GameDesc;
     public string WallpaperName;
     public string price;
+    public string GameLink;
 
     [Header("Game Fields")]
     public TMP_InputField GameTitleField;
     public TMP_InputField GameDescField;
     public TMP_InputField GamePriceField;
+    public TMP_InputField GameLinkField;
     public Button UploadImageBtn;
     public Button UploadwallpaperBtn;
     public TextMeshProUGUI iconText;
@@ -48,6 +51,11 @@ public class StoreHandler : MonoBehaviour
     public List<StoreGame> storeGames = new List<StoreGame>();
     public ExtensionFilter[] filter;
 
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
+
     private void Start()
     {
         GetGames();
@@ -55,6 +63,10 @@ public class StoreHandler : MonoBehaviour
         UploadImageBtn.onClick.AddListener(UploadImageIcon);
         UploadwallpaperBtn.onClick.AddListener(UploadImageWallpaper);
         SubmitBtn.onClick.AddListener(SubmitGame);
+    }
+
+    public void Setup() {
+        GetGames();
     }
 
     #region Get Game Data
@@ -143,14 +155,15 @@ public class StoreHandler : MonoBehaviour
         }
         DisplayGames();
     }
-    private async void DisplayGames() {
+    private void DisplayGames() {
 
         for (int i = 0; i < storeGames.Count; i++)
         {
             GameObject prefab = Instantiate(GamelistPrefab, Parent.transform.position, Quaternion.identity, Parent.transform);
             StoreGameList storeList = prefab.GetComponent<StoreGameList>();
             storeList.SetupList(storeGames[i]);
-            await Task.Delay(500);
+            //DisplayedGames.Add(prefab);
+            //await Task.Delay(500);
         }
     }
     #endregion
@@ -166,11 +179,13 @@ public class StoreHandler : MonoBehaviour
         GameTitle = GameTitleField.text;
         GameDesc = GameDescField.text;
         price = GamePriceField.text;
+        GameLink = GameLinkField.text;
 
         WWWForm form = new WWWForm();
         form.AddField("addTitle", GameTitle);
         form.AddField("addDesc", GameDesc);
         form.AddField("addPrice", price);
+        form.AddField("addLink", GameLink);
         form.AddField("addIcon", IconName);
         form.AddField("addWallpaper", WallpaperName);
         form.AddBinaryData("IconFile", HelperScript.ImageToByte(texIcon), IconName, "Pictures/Icons");

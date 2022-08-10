@@ -52,7 +52,14 @@ public class LoginManager : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.SignupURL.ToString()), form);
         yield return webRequest.SendWebRequest();
 
-        uiManager.SuccesSignup();
+        if (webRequest.downloadHandler.text.Contains("Success"))
+        {
+            uiManager.SuccesSignup("User Created Succesfully!", true);
+        }
+        else {
+            uiManager.SuccesSignup("Failed to Register Please Try Again", false);
+        }
+        
     }
 
     public void Login(LoginUser user) {

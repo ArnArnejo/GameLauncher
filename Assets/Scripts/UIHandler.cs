@@ -93,7 +93,7 @@ public class UIHandler : MonoBehaviour
         StorePanel.SetActive(true);
         MainPanel.SetActive(true);
 
-        RecomendedSection.SetActive(true);
+        //RecomendedSection.SetActive(true);
         SpecialOfferSection.SetActive(true);
 
     }
@@ -102,6 +102,7 @@ public class UIHandler : MonoBehaviour
     {
         DisablePanels();
         LibraryPanel.SetActive(true);
+        //StoreHandler.Instance.Setup();
     }
     public void EnableCommunity()
     {

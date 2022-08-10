@@ -89,14 +89,19 @@ public class UIManager : MonoBehaviour
         _loginManager.CreateUser(signupUser);
 
     }
-    public void SuccesSignup() {
-        StartCoroutine(DisplaySuccess());
+    public void SuccesSignup(string message, bool isSucces) {
+        StartCoroutine(DisplaySuccess(message, isSucces));
     }
-    IEnumerator DisplaySuccess() {
+    IEnumerator DisplaySuccess(string message , bool isSucces) {
         SuccesPanel.SetActive(true);
+        TextMeshProUGUI text = SuccesPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        text.text = message;
         yield return new WaitForSeconds(1f);
+        text.text = "";
         SuccesPanel.SetActive(false);
-        EnableLogin();
+        if(isSucces)
+            EnableLogin();
+
     }
     private void clearFields() {
         loginUsername.text = "";

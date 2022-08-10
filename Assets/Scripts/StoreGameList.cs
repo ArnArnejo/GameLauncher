@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Networking;
 using System.Threading.Tasks;
+using TMPro;
 
 
 public class StoreGameList : MonoBehaviour
@@ -26,6 +27,7 @@ public class StoreGameList : MonoBehaviour
 
     [Header("Add to cart Button")]
     public Button AddToCartBtn;
+    public TextMeshProUGUI text;
 
     private void Start()
     {
@@ -39,6 +41,23 @@ public class StoreGameList : MonoBehaviour
         GamePrice.text = currency +" "+ storeGame.GamePrice.ToString();
         Icon.texture = storeGame.iconTex;
         Wallpaper.texture = storeGame.wallpaperTex;
+
+        AlreadyPurchased();
+    }
+
+    private void AlreadyPurchased() {
+
+        text.text = "Add to Cart";
+
+        for (int i = 0; i < _gameManager.purchasedGame.Count; i++)
+        {
+            if (ID == _gameManager.purchasedGame[i].ID) {
+                text.text = "Already Purchased";
+                AddToCartBtn.onClick.RemoveAllListeners();
+                return;
+            }
+        }
+
     }
 
     private async void addToCart() {

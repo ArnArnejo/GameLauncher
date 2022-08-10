@@ -20,6 +20,8 @@ public class PurchaseHandler : MonoBehaviour
 
     [Header("Utilities")]
     public string[] PurchasedGameData;
+    public List<GameObject> DisplayedGames = new List<GameObject>();
+    public List<SidePanel> side_Panel = new List<SidePanel>();
 
     [Header("Purchased Game Prefab")]
     public GameDetail PurchasedGamePrefab;
@@ -136,35 +138,48 @@ public class PurchaseHandler : MonoBehaviour
             for (int i = 0; i < _gameManager.purchasedGame.Count; i++)
             {
                 GameDetail prefab = Instantiate(PurchasedGamePrefab, parent.position, Quaternion.identity, parent);
-                prefab.SetupDetails(_gameManager.purchasedGame[i]);
-
+                
+                
                 if (i == 0)
                 {
                     prefab.IsSelected = true;
 
                 }
+                SpawnSidePanel(_gameManager.purchasedGame[i], prefab);
+                prefab.SetupDetails(_gameManager.purchasedGame[i]);
+                
+                DisplayedGames.Add(prefab.gameObject);
             }
         }
         else {
             int ctr = _gameManager.purchasedGame.Count - 1;
             GameDetail prefab = Instantiate(PurchasedGamePrefab, parent.position, Quaternion.identity, parent.transform);
-            prefab.SetupDetails(_gameManager.purchasedGame[ctr]);
             prefab.IsSelected = true;
+
+            SpawnSidePanel(_gameManager.purchasedGame[ctr], prefab);
+            prefab.SetupDetails(_gameManager.purchasedGame[ctr]);
+            
+            DisplayedGames.Add(prefab.gameObject);
             //await Task.Delay(500);
         }
     }
 
-    public void SpawnSidePanel(PurchasedGame _details)
+    public void SpawnSidePanel(PurchasedGame _details, GameDetail gameDetail)
     {
         GameObject sidePanel = Instantiate(SidePanelPrefab, sidePanelParent.position, Quaternion.identity, sidePanelParent);
         s_panel = sidePanel.GetComponent<SidePanel>();
+        gameDetail.sidePanel = s_panel;
         s_panel.SetUpPanel(_details);
-        isSidePanelExists = true;
+        side_Panel.Add(s_panel);
+        //isSidePanelExists = true;
     }
 
-    public void UpdateSidePanel(PurchasedGame _details)
+    public void DisableSidPanels()
     {
-        s_panel.SetUpPanel(_details);
+        for (int i = 0; i < side_Panel.Count; i++)
+        {
+            side_Panel[i].gameObject.SetActive(false);
+        }
     }
 
 
