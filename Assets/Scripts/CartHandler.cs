@@ -83,7 +83,7 @@ public class CartHandler : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("GameID", _id);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.RemoveCartItemURL.ToString()), form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.RemoveCartItemURL.ToString()), form);
         yield return webRequest.SendWebRequest();
         print(webRequest.downloadHandler.text);
         _gameManager.cartGames.RemoveAll(r => r.ID == _id);
@@ -104,7 +104,7 @@ public class CartHandler : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("UserID", _gameManager.AccountManager.userID);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.GetCartItemURL.ToString()), form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.GetCartItemURL.ToString()), form);
         yield return webRequest.SendWebRequest();
         print(webRequest.downloadHandler.text);
         cartData = webRequest.downloadHandler.text.Split(';');
@@ -134,7 +134,7 @@ public class CartHandler : MonoBehaviour
     {
         for (int i = 0; i < _gameManager.cartGames.Count; i++)
         {
-            string iconURL = _gameManager.GetURL(eURLS.MainURL.ToString()) + _gameManager.cartGames[i].IconPath + "/" + _gameManager.cartGames[i].GameIcon;
+            string iconURL = _gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.MainURL.ToString()) + _gameManager.cartGames[i].IconPath + "/" + _gameManager.cartGames[i].GameIcon;
 
             WWW www = new WWW(iconURL);
             var operation = www;

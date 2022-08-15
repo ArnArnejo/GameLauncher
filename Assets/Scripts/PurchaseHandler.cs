@@ -13,6 +13,8 @@ public class PurchaseHandler : MonoBehaviour
     private GameManager _gameManager => GameManager.Instance;
     private UIHandler _uiHandler => UIHandler.Instance;
 
+    
+
     //[Header("URLS")]
     //public string GetGamesURL;
     //public string PurchaseGameURL;
@@ -62,7 +64,7 @@ public class PurchaseHandler : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("UserID", _gameManager.AccountManager.userID);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.GetPurchasedGameURL.ToString()), form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.GetPurchasedGameURL.ToString()), form);
         yield return webRequest.SendWebRequest();
         print(webRequest.downloadHandler.text);
         PurchasedGameData = webRequest.downloadHandler.text.Split(';');
@@ -88,15 +90,18 @@ public class PurchaseHandler : MonoBehaviour
                             ));
 
         }
-        GetImageIcon();
-        GetImageWallPaper(_setup);
+
+        
+
+        GetImageIcon(_setup);
+        
     }
 
-    private async void GetImageIcon()
+    private async void GetImageIcon(bool _setup)
     {
         for (int i = 0; i < _gameManager.purchasedGame.Count; i++)
         {
-            string iconURL = _gameManager.GetURL(eURLS.MainURL.ToString()) + _gameManager.purchasedGame[i].IconPath + "/" + _gameManager.purchasedGame[i].GameIcon;
+            string iconURL = _gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.MainURL.ToString()) + _gameManager.purchasedGame[i].IconPath + "/" + _gameManager.purchasedGame[i].GameIcon;
 
             WWW www = new WWW(iconURL);
             var operation = www;
@@ -109,13 +114,13 @@ public class PurchaseHandler : MonoBehaviour
             _gameManager.purchasedGame[i].iconTex = www.texture;
 
         }
-
+        GetImageWallPaper(_setup);
     }
     private async void GetImageWallPaper(bool _setup)
     {
         for (int i = 0; i < _gameManager.purchasedGame.Count; i++)
         {
-            string iconURL = _gameManager.GetURL(eURLS.MainURL.ToString()) + _gameManager.purchasedGame[i].WallpaperPath + "/" + _gameManager.purchasedGame[i].GameWallpaper;
+            string iconURL = _gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.MainURL.ToString()) + _gameManager.purchasedGame[i].WallpaperPath + "/" + _gameManager.purchasedGame[i].GameWallpaper;
 
             WWW www = new WWW(iconURL);
             var operation = www;
@@ -162,6 +167,10 @@ public class PurchaseHandler : MonoBehaviour
             DisplayedGames.Add(prefab.gameObject);
             //await Task.Delay(500);
         }
+
+        if (_gameManager.purchasedGame.Count > 0) _uiHandler.EmptyGameObject.SetActive(false);
+        else _uiHandler.EmptyGameObject.SetActive(true);
+
     }
 
     public void SpawnSidePanel(PurchasedGame _details, GameDetail gameDetail)
@@ -201,7 +210,7 @@ public class PurchaseHandler : MonoBehaviour
         form.AddField("GameID", _id);
         form.AddField("UserID", _gameManager.AccountManager.userID);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.PurchaseGameURL.ToString()), form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.PurchaseGameURL.ToString()), form);
         yield return webRequest.SendWebRequest();
         print(webRequest.downloadHandler.text);
         AddPurchasedGame(_id);
@@ -210,6 +219,7 @@ public class PurchaseHandler : MonoBehaviour
     public void AddPurchasedGame(string _id) {
         _gameManager.purchasedGame.Clear();
         GetPurchasedGames(false);
+        
     }
     #endregion
 }

@@ -29,6 +29,16 @@ public class StoreGameList : MonoBehaviour
     public Button AddToCartBtn;
     public TextMeshProUGUI text;
 
+    private void OnEnable()
+    {
+        GameManager.OnUpdateStoreDetails += AlreadyPurchased;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnUpdateStoreDetails -= AlreadyPurchased;
+    }
+
     private void Start()
     {
         AddToCartBtn.onClick.AddListener(addToCart);
@@ -46,7 +56,7 @@ public class StoreGameList : MonoBehaviour
     }
 
     private void AlreadyPurchased() {
-
+        
         text.text = "Add to Cart";
 
         for (int i = 0; i < _gameManager.purchasedGame.Count; i++)
@@ -57,7 +67,7 @@ public class StoreGameList : MonoBehaviour
                 return;
             }
         }
-
+        Debug.LogError("Check Purchase " + text.text);
     }
 
     private async void addToCart() {
@@ -68,7 +78,7 @@ public class StoreGameList : MonoBehaviour
         form.AddField("GameID", ID);
         form.AddField("UserID", _gameManager.AccountManager.userID);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.AddToCartURL.ToString()), form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.AddToCartURL.ToString()), form);
 
         var operation = webRequest.SendWebRequest();
         while (!operation.isDone)

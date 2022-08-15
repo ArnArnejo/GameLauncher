@@ -46,25 +46,27 @@ MonoBehaviour:
   AccountManager: {fileID: 11400000, guid: eb14172151b81f04e89e5bbec21eeefd, type: 2}
   Links:
   - Name: SignupURL
-    UrlLink: http://localhost/GameLauncherDB/userInsert.php
+    UrlLink: /GameLauncherDB/userInsert.php
   - Name: LoginURL
-    UrlLink: http://localhost/GameLauncherDB/login.php
+    UrlLink: /GameLauncherDB/login.php
   - Name: MainURL
-    UrlLink: http://localhost/GameLauncherDB/
+    UrlLink: /GameLauncherDB/
   - Name: ViewGameURL
-    UrlLink: http://localhost/GameLauncherDB/GetStoreGames.php
+    UrlLink: /GameLauncherDB/GetStoreGames.php
   - Name: InsertGameURL
-    UrlLink: http://localhost/GameLauncherDB/GameInsert.php
+    UrlLink: /GameLauncherDB/GameInsert.php
   - Name: GetCartItemURL
-    UrlLink: http://localhost/GameLauncherDB/getCartItem.php
+    UrlLink: /GameLauncherDB/getCartItem.php
   - Name: RemoveCartItemURL
-    UrlLink: http://localhost/GameLauncherDB/removeCartItem.php
+    UrlLink: /GameLauncherDB/removeCartItem.php
   - Name: GetPurchasedGameURL
-    UrlLink: http://localhost/GameLauncherDB/getPurchasedItem.php
+    UrlLink: /GameLauncherDB/getPurchasedItem.php
   - Name: PurchaseGameURL
-    UrlLink: http://localhost/GameLauncherDB/purchaseGame.php
+    UrlLink: /GameLauncherDB/purchaseGame.php
   - Name: AddToCartURL
-    UrlLink: http://localhost/GameLauncherDB/addToCart.php
+    UrlLink: /GameLauncherDB/addToCart.php
+  - Name: Root
+    UrlLink: http://localhost
   cartGames: []
   cartItemList: []
   purchasedGame: []

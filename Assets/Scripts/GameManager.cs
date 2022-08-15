@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class GameManager : MonoBehaviour
     public delegate void Purchase(string _id);
     public static event Purchase OnPurchase;
 
+    public delegate void UpdateStoreDetails();
+    public static event UpdateStoreDetails OnUpdateStoreDetails;
+
+    public delegate void GetStoreGames();
+    public static event GetStoreGames OnGetGames;
+
     //General Lists
     [Header("Utilities")]
     public List<CartGames> cartGames = new List<CartGames>();
@@ -36,6 +43,22 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+
+        string path = "Setup\\Host.txt";
+        string HostLink = File.ReadAllText(path);
+        print( path + "    " + HostLink);
+        SetupHostLink(HostLink);
+
+    }
+
+    void SetupHostLink(string link) {
+        for (int i = 0; i < Links.Length; i++)
+        {
+            if (Links[i].Name == eURLS.Root.ToString()) {
+                Links[i].UrlLink = link;
+            }
+        }
     }
     public void ItemAddedToCart(string _id) {
         OnAddCartItem?.Invoke(_id);
@@ -62,6 +85,14 @@ public class GameManager : MonoBehaviour
 
         return url.UrlLink;
     }
+
+    public void InvokeUpdateStoreDetail() {
+        OnUpdateStoreDetails?.Invoke();
+    }
+
+    public void InvokeGetGames() {
+        OnGetGames?.Invoke();
+    }
 }
 
 [Serializable]
@@ -71,6 +102,7 @@ public class URL {
 }
 
 public enum eURLS {
+    Root,
     SignupURL,
     LoginURL,
     MainURL,

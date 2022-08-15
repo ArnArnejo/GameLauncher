@@ -44,6 +44,9 @@ public class UIHandler : MonoBehaviour
     [Header("Notification")]
     public NotificationText Notification;
 
+    [Header("Utility")]
+    public GameObject EmptyGameObject;
+    public GameObject LoadingObject;
   
 
     //[Header("Footer Panel")]
@@ -60,10 +63,10 @@ public class UIHandler : MonoBehaviour
         MenuStoreBtn.onClick.AddListener(EnableStore);
         MenuLibraryBtn.onClick.AddListener(EnableLibrary);
         MenuCommunityBtn.onClick.AddListener(EnableCommunity);
-        MenuAccountBtn.onClick.AddListener(EnableAccount);
+        //MenuAccountBtn.onClick.AddListener(EnableAccount);
         AddGameBtn.onClick.AddListener(AddGame);
         CartBtn.onClick.AddListener(EnableCart);
-        YourStoreBtn.onClick.AddListener(EnableStore);
+        //YourStoreBtn.onClick.AddListener(EnableStore);
         AccountNameText.text = _gameManager.AccountManager.username;
         AccountBalanceText.text = "$ " + _gameManager.AccountManager.walletBallance.ToString();
     }
@@ -93,9 +96,13 @@ public class UIHandler : MonoBehaviour
         StorePanel.SetActive(true);
         MainPanel.SetActive(true);
 
+        LoadingObject.SetActive(true);
         //RecomendedSection.SetActive(true);
         SpecialOfferSection.SetActive(true);
 
+        _gameManager.InvokeGetGames();
+        _gameManager.InvokeUpdateStoreDetail();
+        
     }
 
     public void EnableLibrary()

@@ -13,6 +13,8 @@ public class StoreHandler : MonoBehaviour
     public static StoreHandler Instance;
 
     private GameManager _gameManager => GameManager.Instance;
+    private UIHandler _uiHandler => UIHandler.Instance;
+
     [Header("Store Game List Prefab")]
     public GameObject GamelistPrefab;
 
@@ -49,7 +51,18 @@ public class StoreHandler : MonoBehaviour
     [Header("Utilities")]
     public string[] gameData;
     public List<StoreGame> storeGames = new List<StoreGame>();
+    public List<GameObject> storeObject = new List<GameObject>();
     public ExtensionFilter[] filter;
+
+    private void OnEnable()
+    {
+        GameManager.OnGetGames += OnGetGames;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnGetGames -= OnGetGames;
+    }
 
     private void Awake()
     {
@@ -58,22 +71,35 @@ public class StoreHandler : MonoBehaviour
 
     private void Start()
     {
-        GetGames();
+        //GetGames();
 
         UploadImageBtn.onClick.AddListener(UploadImageIcon);
         UploadwallpaperBtn.onClick.AddListener(UploadImageWallpaper);
         SubmitBtn.onClick.AddListener(SubmitGame);
     }
 
-    public void Setup() {
+    public void OnGetGames() {
+
+        if (storeGames.Count > 0) {
+            DestroyStoreGames();
+            storeGames.Clear();
+            storeObject.Clear();
+        } 
         GetGames();
+        
+    }
+    void DestroyStoreGames() {
+        for (int i = 0; i < storeObject.Count; i++)
+        {
+            Destroy(storeObject[i]);
+        }
     }
 
     #region Get Game Data
     //[ContextMenu("Get Games")]
     private async void GetGames()
     {
-        using var www = UnityWebRequest.Get(_gameManager.GetURL(eURLS.ViewGameURL.ToString()));
+        using var www = UnityWebRequest.Get(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.ViewGameURL.ToString()));
         www.SetRequestHeader("Content-Type", "application/json");
         var operation = www.SendWebRequest();
         while (!operation.isDone)
@@ -111,9 +137,10 @@ public class StoreHandler : MonoBehaviour
                             HelperScript.GetValueData(gameData[i], "GameURL:")
                             ));
 
+
         }
         GetImageIcon();
-        GetImageWallPaper();
+        
         
     }
     //[ContextMenu("Get Icon")]
@@ -121,7 +148,7 @@ public class StoreHandler : MonoBehaviour
     {
         for (int i = 0; i < storeGames.Count; i++)
         {
-            string iconURL = _gameManager.GetURL(eURLS.MainURL.ToString()) + storeGames[i].IconPath + "/" + storeGames[i].GameIcon;
+            string iconURL = _gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.MainURL.ToString()) + storeGames[i].IconPath + "/" + storeGames[i].GameIcon;
 
             WWW www = new WWW(iconURL);
             var operation = www;
@@ -134,15 +161,15 @@ public class StoreHandler : MonoBehaviour
             storeGames[i].iconTex = www.texture;
 
         }
-
+        GetImageWallPaper();
     }
     //[ContextMenu("Get Wallpaper")]
     private async void GetImageWallPaper()
     {
         for (int i = 0; i < storeGames.Count; i++)
         {
-            string iconURL = _gameManager.GetURL(eURLS.MainURL.ToString()) + storeGames[i].WallpaperPath + "/" + storeGames[i].GameWallpaper;
-
+            string iconURL = _gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.MainURL.ToString()) + storeGames[i].WallpaperPath + "/" + storeGames[i].GameWallpaper;
+            print(iconURL);
             WWW www = new WWW(iconURL);
             var operation = www;
             while (!operation.isDone)
@@ -162,9 +189,12 @@ public class StoreHandler : MonoBehaviour
             GameObject prefab = Instantiate(GamelistPrefab, Parent.transform.position, Quaternion.identity, Parent.transform);
             StoreGameList storeList = prefab.GetComponent<StoreGameList>();
             storeList.SetupList(storeGames[i]);
+            storeObject.Add(prefab);
             //DisplayedGames.Add(prefab);
             //await Task.Delay(500);
         }
+
+        _uiHandler.LoadingObject.SetActive(false);
     }
     #endregion
 
@@ -195,7 +225,7 @@ public class StoreHandler : MonoBehaviour
 
 
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.InsertGameURL.ToString()), form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.InsertGameURL.ToString()), form);
         //yield return webRequest.SendWebRequest();
         //print(webRequest.downloadHandler.text);
         //string[] result = webRequest.downloadHandler.text.Split(';');

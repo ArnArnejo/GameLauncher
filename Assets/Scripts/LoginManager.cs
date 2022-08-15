@@ -44,12 +44,14 @@ public class LoginManager : MonoBehaviour
 
     public IEnumerator AddUser(CreateUser user)
     {
+
+        print("ADD USER");
         WWWForm form = new WWWForm();
         form.AddField("addUsername", user.username);
         form.AddField("addEmail", user.email);
         form.AddField("addPassword", user.password);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.SignupURL.ToString()), form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.SignupURL.ToString()), form);
         yield return webRequest.SendWebRequest();
 
         if (webRequest.downloadHandler.text.Contains("Success"))
@@ -71,7 +73,7 @@ public class LoginManager : MonoBehaviour
         form.AddField("loginUsername", user.username);
         form.AddField("loginPassword", user.password);
 
-        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.LoginURL.ToString()), form);
+        UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.LoginURL.ToString()), form);
         yield return webRequest.SendWebRequest();
         print(webRequest.downloadHandler.text);
         string[] result = webRequest.downloadHandler.text.Split(';');
