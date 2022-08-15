@@ -54,13 +54,19 @@ public class LoginManager : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.SignupURL.ToString()), form);
         yield return webRequest.SendWebRequest();
 
-        if (webRequest.downloadHandler.text.Contains("Success"))
+        if (webRequest.downloadHandler.text.Contains("Exists"))
         {
-            uiManager.SuccesSignup("User Created Succesfully!", true);
+            uiManager.SuccesSignup("User Already Exists!", false);
         }
-        else {
+        else if (webRequest.downloadHandler.text.Contains("Failed"))
+        {
             uiManager.SuccesSignup("Failed to Register Please Try Again", false);
         }
+        else if (webRequest.downloadHandler.text.Contains("Success")) {
+            uiManager.SuccesSignup("User Created Succesfully!", true);
+        }
+
+        print(webRequest.downloadHandler.text);
         
     }
 
@@ -74,6 +80,7 @@ public class LoginManager : MonoBehaviour
         form.AddField("loginPassword", user.password);
 
         UnityWebRequest webRequest = UnityWebRequest.Post(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.LoginURL.ToString()), form);
+        print(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.LoginURL.ToString()));
         yield return webRequest.SendWebRequest();
         print(webRequest.downloadHandler.text);
         string[] result = webRequest.downloadHandler.text.Split(';');

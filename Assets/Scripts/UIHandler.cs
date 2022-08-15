@@ -47,6 +47,7 @@ public class UIHandler : MonoBehaviour
     [Header("Utility")]
     public GameObject EmptyGameObject;
     public GameObject LoadingObject;
+    public Button LogoutBtn;
   
 
     //[Header("Footer Panel")]
@@ -69,6 +70,7 @@ public class UIHandler : MonoBehaviour
         //YourStoreBtn.onClick.AddListener(EnableStore);
         AccountNameText.text = _gameManager.AccountManager.username;
         AccountBalanceText.text = "$ " + _gameManager.AccountManager.walletBallance.ToString();
+        LogoutBtn.onClick.AddListener(LogoutUser);
     }
 
 
@@ -134,6 +136,10 @@ public class UIHandler : MonoBehaviour
         MainPanel.SetActive(true);
         StorePanel.SetActive(true);
         CartSection.SetActive(true);
+    }
+
+    private void LogoutUser() {
+        _gameManager.Logout();
     }
 
 }

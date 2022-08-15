@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -93,6 +94,18 @@ public class GameManager : MonoBehaviour
     public void InvokeGetGames() {
         OnGetGames?.Invoke();
     }
+
+    public void Logout() {
+        AccountManager.userID = "";
+        AccountManager.username = "";
+        AccountManager.walletBallance = 0;
+        AccountManager.email = "";
+        purchasedGame.Clear();
+        cartItemList.Clear();
+        cartGames.Clear();
+        SceneManager.LoadScene(0);
+    }
+
 }
 
 [Serializable]

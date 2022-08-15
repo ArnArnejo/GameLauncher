@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
         LoginPanel.SetActive(true);
     }
     private void UserSignup() {
-        SignupBtn.enabled = false;
+        //SignupBtn.enabled = false;
         CheckSignupInformation(signupUsername.text, signupEmail.text, signupPassword.text, signupConfirmPassword.text);
     }
     private void userLogin() {
