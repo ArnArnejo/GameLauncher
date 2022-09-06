@@ -10,14 +10,14 @@ public class GameDetail : MonoBehaviour
 
     //private PlayGameHandler _playGameHandler => PlayGameHandler.Instance;
 
-    private PurchasedGame details;
+    private StoreGame details;
     public TextMeshProUGUI GameTitle;
     public RawImage icon;
     public bool IsSelected;
     public SidePanel sidePanel;
     public Button btn;
 
-    public void SetupDetails(PurchasedGame _detail) {
+    public void SetupDetails(StoreGame _detail) {
         details = _detail;
 
 
@@ -45,7 +45,7 @@ public class GameDetail : MonoBehaviour
 
     private void initGameHandler() {
         //_playGameHandler.Init(details.GameTitle, details.GameTitle, details.GameURL);
-        sidePanel.Init(details.GameTitle, details.GameTitle, details.GameURL);
+        sidePanel.Init(details.GameTitle, details.GameTitle, details.GameURL, details.Filename);
     }
 
     

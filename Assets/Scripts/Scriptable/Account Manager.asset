@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userID: 1
   username: ArnArnejo
-  email: 
-  walletBallance: 0
+  email: arnejo@gmail.com
+  walletBallance: 20
+  Admin: 1

@@ -9,4 +9,5 @@ public class AccountManager : ScriptableObject
     public string username;
     public string email;
     public float walletBallance;
+    public float Admin;
 }

@@ -77,7 +77,7 @@ public class PurchaseHandler : MonoBehaviour
 
         for (int i = 0; i < PurchasedGameData.Length - 1; i++)
         {
-            _gameManager.purchasedGame.Add(new PurchasedGame(
+            _gameManager.purchasedGame.Add(new StoreGame(
                             HelperScript.GetValueData(_PurchasedGameDatartData[i], "ID:"),
                             HelperScript.GetValueData(_PurchasedGameDatartData[i], "GameTitle:"),
                             HelperScript.GetValueData(_PurchasedGameDatartData[i], "GameDesc:"),
@@ -86,7 +86,8 @@ public class PurchaseHandler : MonoBehaviour
                             HelperScript.GetValueData(_PurchasedGameDatartData[i], "IconPath:"),
                             HelperScript.GetValueData(_PurchasedGameDatartData[i], "GameWallpaper:"),
                             HelperScript.GetValueData(_PurchasedGameDatartData[i], "WallpaperPath:"),
-                            HelperScript.GetValueData(_PurchasedGameDatartData[i], "GameURL:")
+                            HelperScript.GetValueData(_PurchasedGameDatartData[i], "GameURL:"),
+                            HelperScript.GetValueData(_PurchasedGameDatartData[i], "Filename:")
                             ));
 
         }
@@ -173,7 +174,7 @@ public class PurchaseHandler : MonoBehaviour
 
     }
 
-    public void SpawnSidePanel(PurchasedGame _details, GameDetail gameDetail)
+    public void SpawnSidePanel(StoreGame _details, GameDetail gameDetail)
     {
         GameObject sidePanel = Instantiate(SidePanelPrefab, sidePanelParent.position, Quaternion.identity, sidePanelParent);
         s_panel = sidePanel.GetComponent<SidePanel>();
@@ -238,8 +239,9 @@ public class PurchasedGame
     public string GameURL;
     public Texture2D iconTex;
     public Texture2D wallpaperTex;
+    public string Filename;
 
-    public PurchasedGame(string _id, string _gametitle, string _gamedesc, float _gameprice, string _gameicon, string _iconpath, string _gamewallpaper, string _wallpaperpath, string _gameURL)
+    public PurchasedGame(string _id, string _gametitle, string _gamedesc, float _gameprice, string _gameicon, string _iconpath, string _gamewallpaper, string _wallpaperpath, string _gameURL, string _filename)
     {
         ID = _id;
         GameTitle = _gametitle;
@@ -250,5 +252,6 @@ public class PurchasedGame
         GameWallpaper = _gamewallpaper;
         WallpaperPath = _wallpaperpath;
         GameURL = _gameURL;
+        Filename = _filename;
     }
 }

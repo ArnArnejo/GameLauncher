@@ -33,12 +33,14 @@ public class StoreHandler : MonoBehaviour
     public string WallpaperName;
     public string price;
     public string GameLink;
+    public string Filename;
 
     [Header("Game Fields")]
     public TMP_InputField GameTitleField;
     public TMP_InputField GameDescField;
     public TMP_InputField GamePriceField;
     public TMP_InputField GameLinkField;
+    public TMP_InputField FilenameField;
     public Button UploadImageBtn;
     public Button UploadwallpaperBtn;
     public TextMeshProUGUI iconText;
@@ -100,6 +102,7 @@ public class StoreHandler : MonoBehaviour
     private async void GetGames()
     {
         using var www = UnityWebRequest.Get(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.ViewGameURL.ToString()));
+        print(_gameManager.GetURL(eURLS.Root.ToString()) + _gameManager.GetURL(eURLS.ViewGameURL.ToString()));
         www.SetRequestHeader("Content-Type", "application/json");
         var operation = www.SendWebRequest();
         while (!operation.isDone)
@@ -134,7 +137,8 @@ public class StoreHandler : MonoBehaviour
                             HelperScript.GetValueData(_gameData[i], "IconPath:"),
                             HelperScript.GetValueData(_gameData[i], "GameWallpaper:"),
                             HelperScript.GetValueData(_gameData[i], "WallpaperPath:"),
-                            HelperScript.GetValueData(gameData[i], "GameURL:")
+                            HelperScript.GetValueData(_gameData[i], "GameURL:"),
+                            HelperScript.GetValueData(_gameData[i], "Filename:")
                             ));
 
 
@@ -210,6 +214,7 @@ public class StoreHandler : MonoBehaviour
         GameDesc = GameDescField.text;
         price = GamePriceField.text;
         GameLink = GameLinkField.text;
+        Filename = FilenameField.text;
 
         WWWForm form = new WWWForm();
         form.AddField("addTitle", GameTitle);
@@ -217,6 +222,7 @@ public class StoreHandler : MonoBehaviour
         form.AddField("addPrice", price);
         form.AddField("addLink", GameLink);
         form.AddField("addIcon", IconName);
+        form.AddField("addFilename", Filename);
         form.AddField("addWallpaper", WallpaperName);
         form.AddBinaryData("IconFile", HelperScript.ImageToByte(texIcon), IconName, "Pictures/Icons");
         form.AddBinaryData("WallpaperFile", HelperScript.ImageToByte(textWallpaper), WallpaperName, "Pictures/Wallpaper");
@@ -241,11 +247,30 @@ public class StoreHandler : MonoBehaviour
         if (webRequest.result == UnityWebRequest.Result.Success)
         {
             print($"Success: {webRequest.downloadHandler.text}");
+            StartCoroutine(AddGameResult(webRequest.downloadHandler.text));
+            GameTitleField.text = "";
+            GameDescField.text = "";
+            GamePriceField.text = "";
+            GameLinkField.text = "";
+            FilenameField.text = "";
+            iconText.text = "";
+            wallpaperText.text = "";
+
         }
         else
         {
             print($"Failed: {webRequest.error}");
+            StartCoroutine(AddGameResult(webRequest.error));
         }
+
+    }
+
+    IEnumerator AddGameResult(string _text) {
+        _uiHandler.SuccessAddGamePanel.gameObject.SetActive(true);
+        _uiHandler.SuccessAddGamePanel.NotifText.text = _text;
+        yield return new WaitForSeconds(1);
+        _uiHandler.SuccessAddGamePanel.gameObject.SetActive(true);
+        _uiHandler.SuccessAddGamePanel.NotifText.text = _text;
 
     }
     #endregion

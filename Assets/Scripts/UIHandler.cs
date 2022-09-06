@@ -43,6 +43,7 @@ public class UIHandler : MonoBehaviour
 
     [Header("Notification")]
     public NotificationText Notification;
+    public NotificationText SuccessAddGamePanel;
 
     [Header("Utility")]
     public GameObject EmptyGameObject;
@@ -60,6 +61,10 @@ public class UIHandler : MonoBehaviour
 
     private void Start()
     {
+        if (_gameManager.AccountManager.Admin == 0) {
+            AddGameBtn.gameObject.SetActive(false);
+        }
+
         EnableLibrary();
         MenuStoreBtn.onClick.AddListener(EnableStore);
         MenuLibraryBtn.onClick.AddListener(EnableLibrary);

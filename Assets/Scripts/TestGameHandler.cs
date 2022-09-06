@@ -191,7 +191,8 @@ public class TestGameHandler : MonoBehaviour
                             HelperScript.GetValueData(_gameData[i], "IconPath:"),
                             HelperScript.GetValueData(_gameData[i], "GameWallpaper:"),
                             HelperScript.GetValueData(_gameData[i], "WallpaperPath:"),
-                            HelperScript.GetValueData(_gameData[i], "GameURL:")
+                            HelperScript.GetValueData(_gameData[i], "GameURL:"),
+                            HelperScript.GetValueData(_gameData[i], "Filename:")
                             ));
 
         }
@@ -241,30 +242,4 @@ public class TestGameHandler : MonoBehaviour
 
 }
 
-[System.Serializable]
-public class StoreGame
-{
-    public string GameTitle;
-    public string ID;
-    public string GameDesc;
-    public float GamePrice;
-    public string GameIcon;
-    public string IconPath;
-    public string GameWallpaper;
-    public string WallpaperPath;
-    public string GameURL;
-    public Texture2D iconTex;
-    public Texture2D wallpaperTex;
 
-    public StoreGame (string _id, string _gametitle, string _gamedesc, float _gameprice, string _gameicon, string _iconpath, string _gamewallpaper, string _wallpaperpath, string _gameURL) {
-        ID = _id;
-        GameTitle = _gametitle;
-        GameDesc = _gamedesc;
-        GamePrice = _gameprice;
-        GameIcon = _gameicon;
-        IconPath = _iconpath;
-        GameWallpaper = _gamewallpaper;
-        WallpaperPath = _wallpaperpath;
-        GameURL = _gameURL;
-    }
-}

@@ -98,6 +98,7 @@ public class LoginManager : MonoBehaviour
             _gameManager.AccountManager.username = HelperScript.GetValueData(data[0], "username:");
             _gameManager.AccountManager.email = HelperScript.GetValueData(data[0], "email:");
             _gameManager.AccountManager.walletBallance = float.Parse(HelperScript.GetValueData(data[0], "walletBalance:"));
+            _gameManager.AccountManager.Admin = float.Parse(HelperScript.GetValueData(data[0], "Admin:"));
             _loadManager.LoadScene(1);
         }
         else if (result.Contains("Invalid")) {
